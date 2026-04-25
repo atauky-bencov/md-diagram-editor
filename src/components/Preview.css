@@ -110,11 +110,41 @@
   font-size: 13px;
 }
 
-/* 旧クラス名との互換 */
-.mermaid-error {
-  background: #3d1a1a;
-  color: #f48771;
-  padding: 12px;
+.drawio-wrapper {
+  margin: 1em 0;
+  border: 1px solid #3e3e42;
   border-radius: 6px;
+  overflow: hidden;
+}
+
+.drawio-preview {
+  padding: 16px 20px;
+  background: #252526;
   font-size: 13px;
+  color: #858585;
+  min-height: 48px;
+  display: flex;
+  align-items: center;
+}
+
+.drawio-stats {
+  font-family: ui-monospace, Consolas, monospace;
+  color: #9cdcfe;
+}
+
+.drawio-edit-btn {
+  display: block;
+  width: 100%;
+  padding: 8px;
+  background: #2d2d30;
+  border: none;
+  border-top: 1px solid #3e3e42;
+  color: #4fc3f7;
+  font-size: 12px;
+  cursor: pointer;
+  text-align: center;
+}
+
+.drawio-edit-btn:hover {
+  background: #3e3e42;
 }
