@@ -1,7 +1,9 @@
-import { useState, useCallback } from 'react'
+import { useState, useCallback, useRef } from 'react'
 import { Editor } from './components/Editor'
+import type { EditorHandle } from './components/Editor'
 import { Preview } from './components/Preview'
 import { DrawioModal } from './components/DrawioModal'
+import { FormatToolbar } from './components/FormatToolbar'
 import './App.css'
 
 const INITIAL_CONTENT = `# Markdown Diagram Editor
@@ -84,6 +86,7 @@ function replaceDrawioBlock(content: string, blockIndex: number, newXml: string)
 function App() {
   const [content, setContent] = useState(INITIAL_CONTENT)
   const [drawioEdit, setDrawioEdit] = useState<DrawioEditState | null>(null)
+  const editorRef = useRef<EditorHandle>(null)
 
   const handleEditDrawio = useCallback((xml: string, blockIndex: number) => {
     setDrawioEdit({ xml, blockIndex })
@@ -108,7 +111,8 @@ function App() {
       <div className="panes">
         <div className="editor-pane">
           <div className="pane-label">Editor</div>
-          <Editor value={content} onChange={setContent} />
+          <FormatToolbar onFormat={(action) => editorRef.current?.format(action)} />
+          <Editor ref={editorRef} value={content} onChange={setContent} />
         </div>
         <div className="preview-pane">
           <div className="pane-label" style={{ marginBottom: 16 }}>Preview</div>
