@@ -15,6 +15,21 @@ flowchart LR
     B --> C[保存]
 \`\`\`
 
+## PlantUML の例
+
+\`\`\`plantuml
+@startuml
+participant User
+participant Editor
+participant Preview
+
+User -> Editor : テキスト入力
+Editor -> Preview : コンテンツ更新
+Preview -> Preview : Kroki API でレンダリング
+Preview --> User : ダイアグラム表示
+@enduml
+\`\`\`
+
 ## 通常の Markdown
 
 - **太字**、*斜体*、\`コード\` が使えます

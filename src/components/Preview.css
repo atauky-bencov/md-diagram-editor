@@ -92,6 +92,25 @@
   max-width: 100%;
 }
 
+.plantuml-diagram {
+  margin: 1em 0;
+  display: flex;
+  justify-content: center;
+}
+
+.plantuml-diagram svg {
+  max-width: 100%;
+}
+
+.diagram-error {
+  background: #3d1a1a;
+  color: #f48771;
+  padding: 12px;
+  border-radius: 6px;
+  font-size: 13px;
+}
+
+/* 旧クラス名との互換 */
 .mermaid-error {
   background: #3d1a1a;
   color: #f48771;
