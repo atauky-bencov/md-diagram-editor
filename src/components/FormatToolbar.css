@@ -3,8 +3,8 @@
   align-items: center;
   gap: 2px;
   padding: 4px 8px;
-  background: #2d2d30;
-  border-bottom: 1px solid #3e3e42;
+  background: var(--c-elevated);
+  border-bottom: 1px solid var(--c-border);
   flex-wrap: wrap;
   flex-shrink: 0;
 }
@@ -15,7 +15,7 @@
   border: none;
   border-radius: 3px;
   background: transparent;
-  color: #cccccc;
+  color: var(--c-text-sub);
   font-size: 13px;
   font-family: inherit;
   cursor: pointer;
@@ -25,15 +25,14 @@
 }
 
 .format-btn:hover {
-  background: #3e3e42;
-  color: #ffffff;
+  background: var(--c-hover);
+  color: var(--c-text);
 }
 
 .format-btn:active {
-  background: #4e4e52;
+  background: var(--c-active);
 }
 
-/* 各ボタンの見た目を書式に合わせる */
 .format-btn[data-action="bold"]          { font-weight: 700; }
 .format-btn[data-action="italic"]        { font-style: italic; }
 .format-btn[data-action="strikethrough"] { text-decoration: line-through; }
@@ -46,7 +45,48 @@
 .format-sep {
   width: 1px;
   height: 18px;
-  background: #3e3e42;
+  background: var(--c-border);
   margin: 0 4px;
   flex-shrink: 0;
+}
+
+.snippet-menu {
+  position: relative;
+}
+
+.snippet-trigger {
+  white-space: nowrap;
+  font-size: 12px;
+  color: var(--c-accent-code);
+}
+
+.snippet-dropdown {
+  position: absolute;
+  top: calc(100% + 4px);
+  left: 0;
+  z-index: 100;
+  background: var(--c-surface);
+  border: 1px solid var(--c-border);
+  border-radius: 4px;
+  min-width: 200px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.4);
+  overflow: hidden;
+}
+
+.snippet-item {
+  display: block;
+  width: 100%;
+  padding: 7px 12px;
+  text-align: left;
+  background: transparent;
+  border: none;
+  color: var(--c-text-sub);
+  font-size: 12px;
+  cursor: pointer;
+  white-space: nowrap;
+}
+
+.snippet-item:hover {
+  background: var(--c-hover-accent);
+  color: var(--c-text);
 }

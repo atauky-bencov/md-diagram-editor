@@ -11,6 +11,45 @@ html, body, #root {
 
 body {
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-  background: #1e1e1e;
-  color: #d4d4d4;
+  --c-bg: #1e1e1e;
+  --c-surface: #252526;
+  --c-elevated: #2d2d30;
+  --c-hover: #3e3e42;
+  --c-active: #4e4e52;
+  --c-border: #3e3e42;
+  --c-text: #d4d4d4;
+  --c-text-sub: #cccccc;
+  --c-text-muted: #858585;
+  --c-heading: #e8e8e8;
+  --c-accent: #4fc3f7;
+  --c-accent-code: #9cdcfe;
+  --c-highlight: #007acc;
+  --c-hover-accent: #094771;
+  --c-error-bg: #3d1a1a;
+  --c-error-border: #6b2020;
+  --c-error-text: #f48771;
+  --c-error-msg: #e8a090;
+  background: var(--c-bg);
+  color: var(--c-text);
+}
+
+body.light {
+  --c-bg: #ffffff;
+  --c-surface: #f3f3f3;
+  --c-elevated: #ebebeb;
+  --c-hover: #d4d4d4;
+  --c-active: #c4c4c4;
+  --c-border: #cccccc;
+  --c-text: #1e1e1e;
+  --c-text-sub: #333333;
+  --c-text-muted: #888888;
+  --c-heading: #111111;
+  --c-accent: #0078d4;
+  --c-accent-code: #0066aa;
+  --c-highlight: #0078d4;
+  --c-hover-accent: #ddeeff;
+  --c-error-bg: #fff0ef;
+  --c-error-border: #f5c6c2;
+  --c-error-text: #d32f2f;
+  --c-error-msg: #c62828;
 }

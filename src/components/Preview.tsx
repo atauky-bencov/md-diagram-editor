@@ -11,24 +11,44 @@ mermaid.initialize({ startOnLoad: false, theme: 'dark' })
 interface PreviewProps {
   content: string
   onEditDrawio: (xml: string, blockIndex: number) => void
+  onZoomDiagram?: (svg: string) => void
 }
 
-async function renderMermaid(block: Element, index: number) {
+function errorElement(label: string, e: unknown): HTMLElement {
+  const el = document.createElement('div')
+  el.className = 'diagram-error'
+  const msg = e instanceof Error ? e.message : String(e)
+  el.innerHTML = `<span class="diagram-error-label">${label}</span><pre class="diagram-error-msg">${escapeHtml(msg)}</pre>`
+  return el
+}
+
+function escapeHtml(s: string): string {
+  return s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;')
+}
+
+async function renderMermaid(
+  block: Element,
+  index: number,
+  onZoom: ((svg: string) => void) | undefined,
+) {
   const pre = block.parentElement
   if (!pre) return
   const code = block.textContent ?? ''
   const id = `mermaid-${Date.now()}-${index}`
   try {
     const { svg } = await mermaid.render(id, code)
+    document.getElementById(id)?.remove()
     const wrapper = document.createElement('div')
     wrapper.className = 'mermaid-diagram'
     wrapper.innerHTML = svg
+    if (onZoom) {
+      wrapper.title = 'クリックで拡大'
+      wrapper.onclick = () => onZoom(svg)
+    }
     pre.replaceWith(wrapper)
   } catch (e) {
-    const err = document.createElement('pre')
-    err.className = 'diagram-error'
-    err.textContent = `Mermaid error: ${e}`
-    pre.replaceWith(err)
+    document.getElementById(id)?.remove()
+    pre.replaceWith(errorElement('Mermaid エラー', e))
   }
 }
 
@@ -43,11 +63,10 @@ async function renderPlantuml(block: Element) {
     const res = await fetch(url)
     if (!res.ok) throw new Error(`HTTP ${res.status}`)
     wrapper.innerHTML = await res.text()
+    pre.replaceWith(wrapper)
   } catch (e) {
-    wrapper.className = 'diagram-error'
-    wrapper.textContent = `PlantUML error: ${e}`
+    pre.replaceWith(errorElement('PlantUML エラー', e))
   }
-  pre.replaceWith(wrapper)
 }
 
 function renderDrawio(
@@ -84,11 +103,12 @@ function renderDrawio(
   pre.replaceWith(wrapper)
 }
 
-export function Preview({ content, onEditDrawio }: PreviewProps) {
+export function Preview({ content, onEditDrawio, onZoomDiagram }: PreviewProps) {
   const containerRef = useRef<HTMLDivElement>(null)
-  // useEffect のクロージャに最新コールバックを渡すため ref で保持
   const onEditDrawioRef = useRef(onEditDrawio)
   onEditDrawioRef.current = onEditDrawio
+  const onZoomDiagramRef = useRef(onZoomDiagram)
+  onZoomDiagramRef.current = onZoomDiagram
 
   useEffect(() => {
     if (!containerRef.current) return
@@ -97,7 +117,7 @@ export function Preview({ content, onEditDrawio }: PreviewProps) {
     const container = containerRef.current
 
     container.querySelectorAll('code.language-mermaid').forEach(
-      (block, i) => renderMermaid(block, i)
+      (block, i) => renderMermaid(block, i, onZoomDiagramRef.current)
     )
     container.querySelectorAll('code.language-plantuml').forEach(
       (block) => renderPlantuml(block)
